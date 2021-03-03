@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<title>MoM 2021Week9</title>
+	<script src="https://d3js.org/d3.v6.min.js"></script>
+	<!-- <script src="https://d3js.org/d3.v4.js"></script> -->
+</head>
+
+<body>
+	<div> 
+	<svg id="placeholder1"></svg>
+	</div>
+	<div> 
+	<svg id="placeholder2"; style="width:600px; height:600px; border: 1px"></svg>
+	</div>
+	<div> 
+	<svg id="placeholder3"; style="width:600px; height:600px; border: 1px"></svg>
+	</div>
+	<div> 
+	<svg id="placeholder4"; style="width:600px; height:600px; border: 1px"></svg>
+	</div>
+
+
+	<script type="text/javascript">
+	// const colors, reusable from light to dark
+	green0 = "#c8f7c5"
+	green1 = "#29f1c3"
+	green2 = "#00e640"
+	blue0 = "#a2ded0"
+	blue1 = "#86e2d5"
+	blue2 = "#4ecdc4"
+	purple0 = "#947cb0"
+	purple1 = "#a96dad"
+	purple2 = "#8c14fc"
+	gray1 = "#ececec"
+	gray0 = "#ecf0f1"
+	gray2 = "#6c7a89"
+	
+	//
+	d3.csv("Seats Held by Women in Parliament.csv").then(d=>{drawArc(d)})
+	
+	function drawArc(incomingData){
+		console.log("check incomingData", incomingData)
+
+		var xScale = d3.scaleLinear().domain([0,1]).range([0,1500])
+		var xAxis = d3.axisBottom().scale(xScale).ticks(10)
+		d3.select("#placeholder1")
+			.append("g")
+			.attr("id", "xAxis")
+			.attr("transform", "translate(20,420)")
+			.call(xAxis)
+
+		var path = d3.path()
+		path.moveTo()
+
+
+		var svg = d3.select("#placeholder1")
+					.attr("width", 1600)
+					.attr("height",600)
+					.append("g")
+					.attr("transform", "translate(20,20)")
+
+		var arc = svg.selectAll(".arcG")
+					.data(incomingData.slice(20))
+					.enter()
+					.append("path")
+					.attr("class", "arcG")
+					.attr("d", d=>{
+
+						var path = d3.path()
+						start = xScale(d[2013])
+						end = xScale(d[2019])
+						center = start + (end - start)/2
+						path.moveTo(start, 400)
+						path.quadraticCurveTo(center, 200, end, 400)
+
+						return path
+					})
+					.attr("stroke", gray2)
+					.style("stroke-width", 2)
+					.style("fill", "none")
+
+					
+			
+
+	}
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</script>
+</body>
+</html>
